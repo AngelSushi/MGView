@@ -9,17 +9,21 @@ public class ViewSwitcher : MonoBehaviour
 
     [SerializeField] private Image pastView;
     [SerializeField] private Image actualView;
-
+    [SerializeField] private RectTransform timelineParent;
+    
     public Image PastView
     {
         get => pastView;
-        set => pastView = value;
     }
 
     public Image ActualView
     {
         get => actualView;
-        set => actualView = value;
+    }
+
+    public RectTransform TimelineParent
+    {
+        get => timelineParent;
     }
 
     private Slider _slider;
