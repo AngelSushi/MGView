@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -11,6 +11,9 @@ public class RoomManager : MonoBehaviour
 
     [SerializeField] private List<Room> rooms;
     [SerializeField] private GameObject nameUI;
+    
+    [SerializeField] private Image pastView;
+    [SerializeField] private Image actualView;
     
     private static RoomManager _instance;
 
@@ -30,17 +33,37 @@ public class RoomManager : MonoBehaviour
 
         _viewSwitcher = FindObjectOfType<ViewSwitcher>();
     }
+
+    private void Start()
+    {
+        SwitchToRoom(0);
+    }
     
+
     public void SwitchToRoom(int roomIndex)
     {
+        Debug.Log("switch room");
         Room newRoom = GetRoomById(roomIndex);
 
         nameUI.GetComponent<TextMeshProUGUI>().text = newRoom.RoomName;
-        
+        SwitchTimeline(newRoom);
+
+        pastView.sprite = newRoom.RoomTimeline.TimelineView[0];
+        actualView.sprite = newRoom.RoomTimeline.TimelineView[1];
+
+        _currentRoom = newRoom;
+    }
+
+    private Room GetRoomById(int roomIndex)
+    {
+        return rooms.FirstOrDefault(room => room.RoomId == roomIndex);
+    }
+
+    private void SwitchTimeline(Room newRoom)
+    {
         for (float i = 0; i < newRoom.RoomTimeline.TimelinePoints.Count; i++)
         {
             float position = i / (newRoom.RoomTimeline.TimelinePoints.Count - 1);
-            Debug.Log("position " + position);
             RectTransform parent = _viewSwitcher.TimelineParent;
 
             float beginY = parent.anchoredPosition.y + parent.rect.height / 2;
@@ -52,14 +75,6 @@ public class RoomManager : MonoBehaviour
 
             tlTransform.anchoredPosition = new Vector2(parent.anchoredPosition.x,positionY);
 
-            GameObject tlImage = new GameObject("Image");
-            tlImage.transform.parent = tl.transform;
-            RectTransform tlImageTransform = tlImage.AddComponent<RectTransform>();
-            tlImage.AddComponent<Image>();
-
-            tlImageTransform.anchoredPosition = Vector2.zero;
-            tlImageTransform.sizeDelta = new Vector2(30, 30);
-
             GameObject tlText = new GameObject("Text");
             tlText.transform.parent = tl.transform;
             RectTransform tlTextTransform = tlText.AddComponent<RectTransform>();
@@ -69,14 +84,6 @@ public class RoomManager : MonoBehaviour
             text.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             text.fontSize = 30;
             text.alignment = TextAnchor.MiddleCenter;
-
         }
-        
-        
-    }
-
-    private Room GetRoomById(int roomIndex)
-    {
-        return rooms.FirstOrDefault(room => room.RoomId == roomIndex);
     }
 }

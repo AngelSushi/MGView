@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -27,13 +28,12 @@ public class Room : MonoBehaviour
         get => roomName;
     }
 
+
     private RoomManager _roomManager;
     
     private void Start()
     {
         _roomManager = RoomManager.Instance;
-        
-        _roomManager.SwitchToRoom(0);
     }
     
     

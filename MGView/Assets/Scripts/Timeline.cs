@@ -10,11 +10,13 @@ public class Timeline
     public List<int> TimelinePoints
     {
         get => timelinePoints;
-        private set => timelinePoints = value;
     }
 
-    public Timeline(List<int> timelinePoints)
+    [SerializeField] private List<Sprite> timelineView;
+
+    public List<Sprite> TimelineView
     {
-        this.timelinePoints = timelinePoints;
+        get => timelineView;
     }
+
 }
