@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -12,7 +13,8 @@ public class GPS : MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(StartGPS());
+        InvokeRepeating("GetGPSData",0.5f,1f);     
+        // StartCoroutine(StartGPS());
     }
 
     private IEnumerator StartGPS()
@@ -46,8 +48,10 @@ public class GPS : MonoBehaviour
 
     private void GetGPSData()
     {
-        Debug.Log("enter here " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
+        //Debug.Log("enter here " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
         dataText.text = "Latitude: " + Input.location.lastData.latitude + " Longitude: " + Input.location.lastData.longitude;
+
+        Debug.Log("acceleration " + Input.acceleration);
+
     }
-    
 }

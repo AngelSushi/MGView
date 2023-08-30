@@ -10,6 +10,13 @@ public class RoomManager : MonoBehaviour
     private Room _currentRoom;
 
     [SerializeField] private List<Room> rooms;
+
+    public List<Room> Rooms
+    {
+        get => rooms;
+        private set => rooms = value;
+    }
+    
     [SerializeField] private GameObject nameUI;
     
     [SerializeField] private Image pastView;
@@ -32,6 +39,7 @@ public class RoomManager : MonoBehaviour
         }
 
         _viewSwitcher = FindObjectOfType<ViewSwitcher>();
+        
     }
 
     private void Start()
@@ -42,9 +50,10 @@ public class RoomManager : MonoBehaviour
 
     public void SwitchToRoom(int roomIndex)
     {
-        Debug.Log("switch room");
+        _currentRoom?.gameObject.SetActive(false);
         Room newRoom = GetRoomById(roomIndex);
-
+        newRoom.gameObject.SetActive(true);
+        
         nameUI.GetComponent<TextMeshProUGUI>().text = newRoom.RoomName;
         SwitchTimeline(newRoom);
 
